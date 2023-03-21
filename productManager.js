@@ -1,12 +1,12 @@
 class ProductManager {
     constructor(){
         this.products = []
-        this.productId = 0
+        this.productId = 1
     }
   
     addProduct(title, description, price, thumbnail, code, stock){
         if(!title || !description || !price || !thumbnail || !code || !stock)
-            console.log("Todos los campos son obligatorios"); 
+            throw new error("Todos los campos son obligatorios"); 
         
 
             //metodo "some" devuelve true o false de cada elemento del array segun la condicion  
@@ -29,8 +29,9 @@ class ProductManager {
     }
 
     getProductById(id){
-        const product = this.products.find(product => product.id === id)
-        return product ?  product : console.error("Product not found")
+        const obj = this.products.find(product => product.id === id)
+        if (!obj) console.error("Not found")
+        return obj ? obj : null 
     }
 }
 
@@ -60,4 +61,4 @@ product.addProduct("producto prueba", "este es un producto prueba", 200, "sin im
 
 // se evalua "getProductById" 
 
-console.log(product.getProductById(0));
+console.log(product.getProductById(1));
