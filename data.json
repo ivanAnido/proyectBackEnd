@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "silla",
+    "description": "silla de escritorio",
+    "price": 500,
+    "thumbnail": "Sin imagen",
+    "code": "s001",
+    "stock": 5
+  },
+  {
+    "id": 2,
+    "title": "mesa de luz ",
+    "description": "mesa de luz de zoita",
+    "price": 4500,
+    "thumbnail": "Sin imagen",
+    "code": "m001",
+    "stock": 99
+  },
+  {
+    "id": 3,
+    "title": "escritorio",
+    "description": "escritorio para pc",
+    "price": 500,
+    "thumbnail": "Sin imagen",
+    "code": "e001",
+    "stock": 50
+  }
+]
