@@ -160,13 +160,13 @@ product.addProduct({
 });
 
 //producto sin un campo
-product.addProduct({
-  description: "Divertido, Portátil, Interactivo",
-  price: 299,
-  thumbnail: "imagen de la Nintendo Switch",
-  code: "NSW-001",
-  stock: 75,
-});
+// product.addProduct({
+//   description: "Divertido, Portátil, Interactivo",
+//   price: 299,
+//   thumbnail: "imagen de la Nintendo Switch",
+//   code: "NSW-001",
+//   stock: 75,
+// });
 
 // // Utilización de métodos
 // product.createJsonFile("./data.json");
