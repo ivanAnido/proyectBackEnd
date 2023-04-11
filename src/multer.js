@@ -1,11 +1,10 @@
-import { log } from "console";
 import multer from "multer";
 
-const path = `${__dirname}/public/uploads`;
+const uploadPath = new URL("../public/uploads", import.meta.url).pathname;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path);
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -20,4 +19,4 @@ const uploader = multer({
   },
 });
 
-export default { uploader };
+export default uploader;

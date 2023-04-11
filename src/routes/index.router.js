@@ -1,11 +1,10 @@
 import { Router } from "express";
-
-const carts = require("./cart.router");
-const products = require("./products.router");
+import cartsRouter from "./cart.router.js";
+import productsRouter from "./products.router.js";
 
 const router = Router();
 
-router.use("/products", products);
-router.use("/carts", carts);
+router.use("/products", productsRouter);
+router.use("/carts", cartsRouter);
 
 export default router;
