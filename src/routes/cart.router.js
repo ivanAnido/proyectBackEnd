@@ -4,9 +4,9 @@ import cartManager from "../controllers/cartManager.js";
 
 const router = Router();
 let productManagerInstance = new productManager("./data.json");
-
+let cartManagerInstance = new cartManager("./dataCart.json");
 router.post("/", async (req, res) => {
-  await cartManager.createCart();
+  await cartManagerInstance.createCart();
   res
     .status(200)
     .send({ status: "success", message: "Cart created successfully" });
@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
   const { cid } = req.params;
-  const cart = await cartManager.getCartById(parseInt(cid));
+  const cart = await cartManagerInstance.getCartById(parseInt(cid));
   !cart
     ? res.status(404).send({ status: "error", message: "Cart not found" })
     : res.status(200).send({ status: "success", cart });
@@ -24,7 +24,10 @@ router.post("/:cid/product/:pid", async (req, res) => {
   const { cid, pid } = req.params;
   const product = await productManagerInstance.getProductById(parseInt(pid));
   if (product) {
-    const cart = await cartManager.addToCart(parseInt(cid), parseInt(pid));
+    const cart = await cartManagerInstance.addToCart(
+      parseInt(cid),
+      parseInt(pid)
+    );
     !cart
       ? res.status(404).send({ status: "error", message: "Not found" })
       : res.status(200).send(cart);

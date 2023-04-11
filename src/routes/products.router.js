@@ -4,7 +4,6 @@ import ProductManager from "../controllers/productManager.js";
 const router = Router();
 const productManager = new ProductManager();
 
-//productManager es asincronica si async no va a funcionar porque no espera rta
 router.get("/", async (req, res) => {
   try {
     const { limit } = req.query;
