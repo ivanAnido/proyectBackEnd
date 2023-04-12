@@ -68,7 +68,6 @@ class ProductManager {
     );
   };
 
-  // Traer productos desde el JSON pero con PROMISES.}
   getProducts = async () => {
     try {
       let data = await fsP.readFile(this.path, "utf-8");
@@ -158,18 +157,5 @@ product.addProduct({
   code: "MBP16",
   stock: 20,
 });
-
-//producto sin un campo
-// product.addProduct({
-//   description: "Divertido, Portátil, Interactivo",
-//   price: 299,
-//   thumbnail: "imagen de la Nintendo Switch",
-//   code: "NSW-001",
-//   stock: 75,
-// });
-
-// // Utilización de métodos
-// product.createJsonFile("./data.json");
-// // product.getProductById(1);
 
 export default ProductManager;

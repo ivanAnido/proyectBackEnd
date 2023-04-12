@@ -1,39 +1,27 @@
 import { Router } from "express";
-import productManager from "../controllers/productManager.js";
-import cartManager from "../controllers/cartManager.js";
+import CartManager from "../controllers/cartManager.js";
 
+const cart = new CartManager("cart.json");
 const router = Router();
-let productManagerInstance = new productManager("./data.json");
-let cartManagerInstance = new cartManager("./dataCart.json");
-router.post("/", async (req, res) => {
-  await cartManagerInstance.createCart();
-  res
-    .status(200)
-    .send({ status: "success", message: "Cart created successfully" });
+
+router.post("/api/carts", async (req, res) => {
+  cart.createCart();
+  return res.status(200).send({ status: "success", message: "Carrito creado" });
 });
 
-router.get("/:cid", async (req, res) => {
+router.get("/api/carts/:cid", async (req, res) => {
   const { cid } = req.params;
-  const cart = await cartManagerInstance.getCartById(parseInt(cid));
-  !cart
-    ? res.status(404).send({ status: "error", message: "Cart not found" })
-    : res.status(200).send({ status: "success", cart });
+  const cartProduct = await cart.getProducts(cid);
+  return res.status(200).send(cartProduct);
 });
 
-router.post("/:cid/product/:pid", async (req, res) => {
-  const { cid, pid } = req.params;
-  const product = await productManagerInstance.getProductById(parseInt(pid));
-  if (product) {
-    const cart = await cartManagerInstance.addToCart(
-      parseInt(cid),
-      parseInt(pid)
-    );
-    !cart
-      ? res.status(404).send({ status: "error", message: "Not found" })
-      : res.status(200).send(cart);
-  } else {
-    res.status(404).send({ error: "Product not found" });
-  }
+router.post("/:cid/productos/:pid", async (req, res) => {
+  const { cid } = req.params;
+  const { pid } = req.params;
+  const product = req.body;
+  return res
+    .status(200)
+    .send({ status: "success", message: "params", cid, pid, product });
 });
 
 export default router;
