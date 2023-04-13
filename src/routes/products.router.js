@@ -3,7 +3,7 @@ import ProductManager from "../controllers/productManager.js";
 import uploader from "../multer.js";
 
 const router = Router();
-const productsList = new ProductManager("data.json");
+const productsList = new ProductManager("src/dataProducts.json");
 const notFound = { status: "error", error: "Product not found" };
 
 router.get("/", async (req, res) => {

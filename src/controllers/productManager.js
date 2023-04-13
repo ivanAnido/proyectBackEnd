@@ -2,73 +2,66 @@ import fs from "fs";
 import { promises } from "fs";
 const fsP = promises;
 
+const products = [];
+const path = "dataProducts.json";
+
 class ProductManager {
   constructor(path) {
-    this.products = [];
+    this.products = products;
     this.path = path;
   }
 
-  addProduct(product) {
-    //valida que todos los campos estén completos
-    if (
-      !product.title ||
-      !product.description ||
-      !product.price ||
-      !product.thumbnail ||
-      !product.code ||
-      !product.stock
-    )
-      return console.log("se requiere todos los campos");
+  // Agrega productos al JSON
+  async addProduct(product) {
+    try {
+      const productsFile = await fsP.readFile(this.path, "utf-8");
+      let products = JSON.parse(productsFile);
 
-    // valida el código del producto, si ya existe lo reporta por consola
-    let codeRepeat = this.products.find((prod) => prod.code === product.code);
-    if (codeRepeat)
-      return console.log(
-        `este producto ya se encuentra con este codigo, code:"${product.code}"`
-      );
+      //valida que esten los campos
+      if (
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.thumbnail ||
+        !product.code ||
+        !product.status ||
+        !product.stock
+      )
+        return console.log("Every fields are request");
 
-    //le asigna un id al producto agregado
-    return this.products.push({ id: this.products.length + 1, ...product });
+      //asigna un id autoincremental
+      products.push({ id: products.length + 1, ...product });
+      //escribe los datos en el archivo
+      return fsP.writeFile(this.path, JSON.stringify(products, null, 2));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // Método que elimina un producto con el ID desde el JSON
-  deleteProduct(id) {
-    fsP.readFile(this.path, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      const product = JSON.parse(data);
-      const index = product.findIndex((product) => product.id === id);
+  async deleteProduct(pid) {
+    try {
+      const data = await fsP.readFile(this.path, "utf-8");
+      const products = JSON.parse(data);
+      const index = products.findIndex((product) => product.id === pid);
       if (index !== -1) {
-        product.splice(index, 1);
+        products.splice(index, 1);
       } else {
-        console.log(`Producto con id: ${id} no encontrado`);
+        console.log(`Product with id ${pid} not found`);
         return;
       }
-      fs.writeFile(path, JSON.stringify(product, null, 2), "utf-8", (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(`Producto con id: ${id} borrado exitosamente`);
-        }
-      });
-    });
+      return fsP.writeFile(
+        this.path,
+        JSON.stringify(products, null, 2),
+        "utf-8"
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  // Método que crea el archivo "DB.json"
-  createJsonFile = (path) => {
-    fsP.writeFile(
-      path,
-      JSON.stringify([...product.products], null, 2),
-      "utf-8",
-      (err) => {
-        if (err) return console.log(err);
-      }
-    );
-  };
-
-  getProducts = async () => {
+  // Traer productos desde el JSON
+  getProducts = async (limit) => {
     try {
       let data = await fsP.readFile(this.path, "utf-8");
       const parseData = JSON.parse(data);
@@ -78,84 +71,38 @@ class ProductManager {
     }
   };
   // Actualizar/modificar productos
-  updateProduct(pid, newProduct) {
-    fsP.readFile(this.path, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  async updateProduct(pid, newProduct) {
+    try {
+      const data = await fsP.readFile(this.path, "utf-8");
       const products = JSON.parse(data);
       const index = products.findIndex((product) => product.id === pid);
       if (index !== -1) {
-        products[index] = { ...newProduct, pid };
+        newProduct.id = pid;
+        products[index] = newProduct;
       } else {
-        console.log(`Producto con id: ${id} no encontrado`);
-        return;
+        console.log(`Product with id ${pid} not found`);
       }
-      fsP.writeFile(
-        this.path,
-        JSON.stringify(products, null, 2),
-        "utf-8",
-        (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(`Producto con id: ${id} modificado exitosamente`);
-          }
-        }
-      );
-    });
+      return fsP.writeFile(this.path, JSON.stringify(products, null, 2));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // Trae producto con ID desde JSON
   async getProductById(pid) {
-    const contenido = await fsP.readFile(this.path, "utf-8");
+    try {
+      const contenido = await fsP.readFile(this.path, "utf-8");
 
-    let product = JSON.parse(contenido);
-    let productId = product.find((prod) => prod.id === pid);
+      let product = JSON.parse(contenido);
+      let productId = product.find((prod) => prod.id === pid);
 
-    if (!product) return "Producto no encontrado";
+      if (!product) return "Product not found";
 
-    return productId;
+      return productId;
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
-
-const product = new ProductManager("./data.json");
-
-product.addProduct({
-  title: "Samsung Galaxy S21 5G",
-  description: "Potente, Rápido, 5G",
-  price: 799,
-  thumbnail: "imagen del Samsung Galaxy S21",
-  code: "SG21-5G",
-  stock: 5,
-});
-
-product.addProduct({
-  title: " Auriculares inalámbricos Bose QuietComfort",
-  description: "Cancelación de ruido, Confort, Batería",
-  price: 249,
-  thumbnail: "imagen de los auriculares Bose QuietComfort",
-  code: "QC35",
-  stock: 50,
-});
-
-product.addProduct({
-  title: "Televisor LG OLED",
-  description: "Delgado, Brillante, Tecnológico",
-  price: 1499,
-  thumbnail: "imagen del televisor LG OLED",
-  code: "OLED65",
-  stock: 30,
-});
-
-product.addProduct({
-  title: "MacBook Pro 16 pulgadas",
-  description: "Potente, Portátil, Innovado",
-  price: 2399,
-  thumbnail: " imagen del MacBook Pro",
-  code: "MBP16",
-  stock: 20,
-});
 
 export default ProductManager;

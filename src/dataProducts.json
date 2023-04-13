@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "title": "Samsung Galaxy S21 5G",
+    "description": "Potente, Rápido, 5G",
+    "price": 799,
+    "thumbnail": "imagen del Samsung Galaxy S21",
+    "code": "SG21-5G",
+    "stock": 5
+  },
+  {
+    "id": 2,
+    "title": " Auriculares inalámbricos Bose QuietComfort",
+    "description": "Cancelación de ruido, Confort, Batería",
+    "price": 249,
+    "thumbnail": "imagen de los auriculares Bose QuietComfort",
+    "code": "QC35",
+    "stock": 50
+  },
+  {
+    "title": "Samsung Galaxy a24 5G",
+    "description": "Potente, Rápido, 5G",
+    "price": 500,
+    "thumbnail": "imagen del Samsung Galaxy a24",
+    "code": "SGA24-5G",
+    "status": 200,
+    "stock": 10,
+    "id": 3
+  },
+  {
+    "id": 4,
+    "title": "MacBook Pro 16 pulgadas",
+    "description": "Potente, Portátil, Innovado",
+    "price": 2399,
+    "thumbnail": " imagen del MacBook Pro",
+    "code": "MBP16",
+    "stock": 20
+  },
+  {
+    "id": 5,
+    "title": "Samsung Galaxy S22 5G",
+    "description": "Potente, Rápido, 5G",
+    "price": 796,
+    "thumbnail": "imagen del Samsung Galaxy S22",
+    "code": "SG22-5G",
+    "status": "200",
+    "stock": 10
+  },
+  {
+    "id": 6,
+    "title": "Samsung Galaxy S22 5G",
+    "description": "Potente, Rápido, 5G",
+    "price": "796",
+    "thumbnail": "imagen del Samsung Galaxy S22",
+    "code": "SG22-5G",
+    "status": "200",
+    "stock": "10"
+  },
+  {
+    "id": 7,
+    "title": "Samsung Galaxy a24 5G",
+    "description": "Potente, Rápido, 5G",
+    "price": 500,
+    "thumbnail": "imagen del Samsung Galaxy a24",
+    "code": "SGA24-5G",
+    "status": 200,
+    "stock": 10
+  }
+]
