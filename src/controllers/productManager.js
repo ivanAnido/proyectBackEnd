@@ -37,28 +37,24 @@ class ProductManager {
       console.log(err);
     }
   }
-
-  // Método que elimina un producto con el ID desde el JSON
-  async deleteProduct(pid) {
+  writeFile = async (data) => {
     try {
-      const data = await fsP.readFile(this.path, "utf-8");
-      const products = JSON.parse(data);
-      const index = products.findIndex((product) => product.id === pid);
-      if (index !== -1) {
-        products.splice(index, 1);
-      } else {
-        console.log(`Product with id ${pid} not found`);
-        return;
-      }
-      return fsP.writeFile(
-        this.path,
-        JSON.stringify(products, null, 2),
-        "utf-8"
-      );
+      await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+  // Método que elimina un producto con el ID desde el JSON
+  deleteById = async (id) => {
+    try {
+      let products = await this.getProducts();
+      const obj = products.filter((obj) => obj.id !== id);
+      await this.writeFile(obj);
+      return console.log("removed product");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Traer productos desde el JSON
   getProducts = async (limit) => {

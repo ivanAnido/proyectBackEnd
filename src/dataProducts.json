@@ -45,25 +45,5 @@
     "code": "SG22-5G",
     "status": "200",
     "stock": 10
-  },
-  {
-    "id": 6,
-    "title": "Samsung Galaxy S22 5G",
-    "description": "Potente, Rápido, 5G",
-    "price": "796",
-    "thumbnail": "imagen del Samsung Galaxy S22",
-    "code": "SG22-5G",
-    "status": "200",
-    "stock": "10"
-  },
-  {
-    "id": 7,
-    "title": "Samsung Galaxy a24 5G",
-    "description": "Potente, Rápido, 5G",
-    "price": 500,
-    "thumbnail": "imagen del Samsung Galaxy a24",
-    "code": "SGA24-5G",
-    "status": 200,
-    "stock": 10
   }
 ]
