@@ -2,19 +2,29 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import router from "./routes/index.router.js";
 import uploader from "./multer.js";
-import path from "path";
+import handlebars from "express-handlebars";
+import __dirname from "./utils.js";
+import http from "http";
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+//websocket
+import { Server } from "socket.io";
 
 const routers = router;
 const app = express();
 const PORT = 8080;
 
+const httpServer = http.createServer(app);
+
+//-----------------------Handlebars---------------------------------
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
+//----------------------------------------------
+app.use(express.static(__dirname + "/public"));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.use("/api", routers);
 
@@ -25,10 +35,14 @@ app.post("/api/products", uploader.single("thumbnail"), (req, res) => {
   });
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Listening app port ${server.address().port}`);
+app.use("/", routers);
+
+//--------------------webSocket------------------------
+const io = new Server(httpServer);
+httpServer.listen(PORT, () => {
+  console.log(`Listening app port ${PORT}`);
 });
 
-server.on("error", (error) => {
+httpServer.on("error", (error) => {
   console.log("Error", error);
 });
